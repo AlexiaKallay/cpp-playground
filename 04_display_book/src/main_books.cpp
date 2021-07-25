@@ -1,9 +1,9 @@
-﻿#include <string.h>
+﻿#include <string>
 #include <iostream>
 
 // Define the maximum length for the name to use.
 // Specify the length of characters in the content (Excluding the terminator).
-#define MAX_NAME_LEN 10
+#define MAX_NAME_LEN 30
 #define MAX_TITLE_LEN 50
 
 struct Author
@@ -33,7 +33,7 @@ struct Book
 
 	void addAuthor(Author author)
 	{
-		// TODO: add an author to the container authors array.
+		authors[numAuthors] = author;
 		numAuthors++;
 	}
 
@@ -43,8 +43,9 @@ struct Book
 		std::cout << "------" << std::endl;
 		std::cout << this->title << std::endl;
 
-		// TODO: add all authors
-
+		for (int index = 0; index < numAuthors; ++index)
+			std::cout << authors[index].name << "\n";
+		std::cout << "\n";
 	}
 };
 
