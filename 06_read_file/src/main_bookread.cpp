@@ -1,4 +1,6 @@
 ﻿#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -10,6 +12,10 @@ class Book
 public:
 	std::string name;
 	std::string authors;
+
+	Book(const std::string& name, const std::string& authors) : name(name), authors(authors)
+	{
+	}
 
 	void print()
 	{
@@ -34,14 +40,49 @@ public:
 std::vector<Book> readBooksFromTextFile(const std::string& file_name)
 {
 	std::vector<Book> results;
-	// TODO: BEGIN read the file -------------------------------------
+	std::ifstream file(file_name);
 
+	if (file.is_open())
+	{
+		std::string line, bookName, authors;
+		int lineNumber = 0;
+
+		while (std::getline(file, line))
+		{
+			++lineNumber;
+			std::istringstream ss(line);
+
+			if (lineNumber % 2 == 0)
+			{
+				std::string token;
+				while (std::getline(ss, token, ','))
+				{
+					authors.append(token);
+					authors.append(",");
+				}
+				authors.replace(authors.end() - 1, authors.end(), "");
+
+				Book* myBook = new Book(bookName, authors);
+				results.emplace_back(*myBook);
+
+				bookName = {};
+				authors = {};
+			}
+			else
+			{
+				bookName.append(line);
+			}
+		}
+		file.close();
+	}
+	else
+	{
+		std::cout << "Could not open the file.\n";
+	}
 
 	// E.g. Book myBook;
 	//		...
 	//		results.emplace_back(myBook);
-
-	// TODO: END read file and add to results vector ------------------
 	return results;
 }
 
