@@ -7,22 +7,28 @@
 */
 class Matrix
 {
-private:
 	size_t column_count;
 	size_t line_count;
-
-	// TODO: store the data
-	// hints: you can use std::string, std::vectors + string, char**, vector<vector<char>>, etc
+	
+	std::vector<std::vector<char>> myMatrix;
 public:
 	Matrix(size_t numColumnsX, size_t numLinesY)
-		// TODO: add functionality
 	{
-		// TODO: add functionality
+		line_count = numLinesY;
+		column_count = numColumnsX;
+		
+		myMatrix.resize(line_count);
+		for (auto line : myMatrix)
+		{
+			line.resize(column_count);
+		}
 	}
 
 	// Set an entire line
 	void setLine(size_t line_number, const std::string& data)
 	{
+		const std::vector<char> temp(data.begin(), data.end());
+		myMatrix[line_number] = temp;
 	}
 
 	//OPTIONAL
@@ -54,13 +60,24 @@ public:
 	*/
 	void setCellXY(size_t x, size_t y, char cell_content)
 	{
-		// TODO: add functionality
+		if (y >= line_count)
+			std::cout << "Cell y = " << y << " invalid due to limited height of " << line_count << "\n";
+		else
+			if(x >= column_count)
+				std::cout << "Cell x = " << x << " invalid due to limited height of " << column_count << "\n";
+			else
+				myMatrix[y][x] = cell_content;
 	}
 
 	void print()
 	{
 		// print all lines and columns
-		// TODO: add functionality
+		for (const auto& line : myMatrix)
+		{
+			for (auto& character : line)
+				std::cout << character << " ";
+			std::cout << "\n";
+		}
 	}
 };
 
